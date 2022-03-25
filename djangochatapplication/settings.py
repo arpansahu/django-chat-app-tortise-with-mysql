@@ -21,12 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3s9puivhr=&ofnsayzpg-red3e82y8#^-pc!hb(bu=r6u^7xuf'
+SECRET_KEY =config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['0.0.0.0', '*']
+DEBUG = int(config('DEBUG'))
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 # Application definition
 
@@ -132,24 +131,24 @@ LOGOUT_REDIRECT_URL = '/'
 # Login_required Decorator
 LOGIN_URL = 'login/'
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
-
-# for running in heroku
 # CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [config('REDIS_URL')],
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
 #         },
 #     },
 # }
+
+# for running in heroku
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [config('REDIS_URL')],
+        },
+    },
+}
 
 TORTOISE_INIT = {
     "db_url": config('DB_TORTOISE_URL'),
